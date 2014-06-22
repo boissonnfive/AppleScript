@@ -2,19 +2,27 @@
 
 ## Description ##
 
-Ce script permet de remplir une facture à partir d'un fichier modèle excel et de l'envoyer à un client par mail.
+Ce script permet de créer une facture au format PDF à partir d'un fichier modèle excel, et de l'envoyer à un client par mail.
 
 Il demande :
 
-- le nom du client (pour chercher son adresse mail et son adresse)
+- le nom du client (pour chercher son adresse mail et son adresse dans l'application "Contacts")
 - la durée d'intervention
-- Le type d'intervention
-- de modifier ou non la date d'intervention
+- le type d'intervention
+- de modifier ou non la date d'intervention (car, par défaut, c'est la date du jour)
 
 A partir de ces données, il crée une facture au format pdf (à partir d'un
  fichier modèle excel), sauvegardée dans un dossier factures.
 
 Enfin, il envoie ce fichier au client par courrier électronique.
+
+
+## Prérequis ##
+
+- Avoir les coordonnées de ses clients (nom, prénom, adresse, adresse mail) dans "Contacts".
+- Avoir une adresse mail et une signature.
+- Le fichier modèle excel.
+
 
 ## Les variables à modifier ##
 
@@ -29,7 +37,7 @@ Il faudra modifier dans le code les variables suivantes :
 - monSujet : le sujet du mail.
 
 
-## Précision sur le nom du fichier facture ##
+## Précisions sur le nom du fichier facture ##
 
 - son nom a le format suivant : "Facture_" + numéro à 5 chiffres précédés par des zéros + ".pdf" (exemple: Facture_00123.pdf)
 - son numéro est incrémenté à chaque nouvelle facture
