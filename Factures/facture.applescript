@@ -196,7 +196,7 @@ set reponseNumeroFacture to my fenetreQuestion(message, numeroFacture)
 if button returned of reponseNumeroFacture is not "OK" then
 	
 	return -- On quitte le programme
-
+	
 end if
 
 
