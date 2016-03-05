@@ -58,7 +58,7 @@ on open the_Droppings
 	-- When you coerce a path to an "alias" it must exist otherwise you get an error.
 	try
 		cheminFichierConfigFTP as alias
-		display dialog "it exists"
+		--display dialog "it exists"
 	on error
 		creerFichierConfigFTP()
 	end try
@@ -263,7 +263,7 @@ on creerFichierConfigFTP()
 	
 	set _password to _password1
 	
-	do shell script "printf \"machine\\t _machine\\nlogin\\t_login\\npassword\\t_password\\n\" > $HOME/.netro & chmod go-r $HOME/.netro"
+	do shell script "printf \"machine\\t _machine\\nlogin\\t_login\\npassword\\t_password\\n\" > $HOME/.netrc & chmod go-r $HOME/.netrc"
 	
 end creerFichierConfigFTP
 
