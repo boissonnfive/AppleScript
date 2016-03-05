@@ -33,45 +33,40 @@ Il faut crŽer un fichier ".netrc" dans le dossier utilisateur ($HOME) qui contie
 
 *)
 
+property machine : "dl.free.fr"
+property nomFichierConfigFTP : ".netrc"
+property objetMail : "J'ai partagŽ un fichier sur dl.free.fr : "
+property messageLienFichier : "Lien vers le fichier: "
+property messageLienSupprimerFichier : "Lien pour supprimer le fichier: "
+property salutations1 : "Bonjour,
+"
+property salutations2 : "Cordialement.
+Bruno"
 
-
--- Une fonction pour atteindre le sous-menu d'une application
--- useful function to click an application sub-menu
-on do_menu(app_name, menu_name, menu_item)
-	try
-		-- bring the target application to the front
-		tell application app_name
-			activate
-		end tell
-		tell application "System Events"
-			tell process app_name
-				tell menu bar 1
-					tell menu bar item menu_name
-						tell menu menu_name
-							click menu item menu_item
-						end tell
-					end tell
-				end tell
-			end tell
-		end tell
-		return true
-	on error error_message
-		return false
-	end try
-end do_menu
-
--- Test si l'application "processName" est en lancŽe ou pas
-on test_process(processName)
-	tell application "System Events"
-		set myList to (name of every process)
-	end tell
-	
-	return (myList contains processName)
-end test_process
 
 
 
 on open the_Droppings
+	
+	--------------------------------------------------------------------------
+	-- 1. VŽrifie la prŽsence du fichier de config FTP
+	--    S'il est absent, on le crŽe ˆ partir des rŽponses de l'utilisateur
+	--------------------------------------------------------------------------
+	
+	set cheminFichierConfigFTP to (path to home folder as text) & nomFichierConfigFTP
+	
+	-- When you coerce a path to an "alias" it must exist otherwise you get an error.
+	try
+		cheminFichierConfigFTP as alias
+		display dialog "it exists"
+	on error
+		creerFichierConfigFTP()
+	end try
+	
+	
+	----------------------------------------------------------------------
+	-- 2. On vŽrifie si l'objet dŽposŽ est unique et est un fichier
+	----------------------------------------------------------------------
 	
 	set terminalRunning to false
 	
@@ -83,6 +78,10 @@ on open the_Droppings
 			display alert "Erreur : on ne peut pas dŽposer de dossier!" & return & return & "(" & (item 1 of the_Droppings as string) & ")"
 			return
 		else
+			
+			----------------------------------------------------------------------
+			-- 3. On vŽrifie si l'objet dŽposŽ est unique et est un fichier
+			----------------------------------------------------------------------
 			
 			-- rŽcupŽration du nom du fichier
 			tell application "Finder" to set the_file to name of (item 1 of the_Droppings as alias)
@@ -119,25 +118,47 @@ on open the_Droppings
 					
 					
 					-- On a besoin de l'utilisateur pour nous dire quand la commande est terminŽe
-					with timeout of 15000 seconds
+					
+					(*
+with timeout of 15000 seconds
 						display alert "Appuyer sur OK quand la commande est terminŽe."
 					end timeout
+*)
 					
 					
-					-- On rŽcupre le rŽsultat de la commande en copiant toute la fentre du Terminal (problme de la commande interactive)
-					tell front window
-						set the clipboard to contents of last tab as text
-					end tell
+					
+					set finFTP to false
+					
+					repeat while finFTP = false
+						
+						-- On rŽcupre le rŽsultat de la commande en copiant toute la fentre du Terminal (problme de la commande interactive)
+						tell front window
+							set the clipboard to contents of last tab as text
+						end tell
+						
+						set contenuPressePapier to the clipboard as text
+						
+						log contenuPressePapier
+						delay 5
+						
+						if contenuPressePapier contains "221 Goodbye." then
+							set finFTP to true
+						end if
+						
+						
+					end repeat
 					
 				end tell
 				
 				-- On ferme le Terminal ou l'onglet qu'on vient d'ouvrir
+				
 				if terminalRunning is true then
 					do_menu("Terminal", "Shell", "Fermer lÕonglet")
 					--tell front window to close last tab
 				else
 					tell application "Terminal" to quit
 				end if
+				
 				
 				-- On rŽcupre les liens contenu dans le rŽsultat de la commande qu'on a copiŽ dans le presse-papier
 				set monText to ""
@@ -151,14 +172,23 @@ on open the_Droppings
 					end if
 				end repeat
 				
-				set monSujet to "Lien vers fichier : " & the_file
-				set contenuMessage to "Lien vers le fichier: " & paragraph 1 of monText & return & "Lien pour supprimer le fichier: " & paragraph 2 of monText & return
+				-- set monSujet to "Lien vers fichier : " & the_file
+				set objetMail to objetMail & the_file
+				
+				
+				(*
+set contenuMessage to "Lien vers le fichier: " & paragraph 1 of monText & return & "Lien pour supprimer le fichier: " & paragraph 2 of monText & return
+*)
+				
+				set contenuMessage to messageLienFichier & paragraph 1 of monText & return & messageLienSupprimerFichier & paragraph 2 of monText & return
+				
+				
 				
 				tell application "Mail"
 					set nouveauMessage to make new outgoing message
 					tell nouveauMessage
-						set subject to monSujet --(string) : Le sujet du message
-						set content to contenuMessage --(string) : Le contenu du message
+						set subject to objetMail --(string) : Le sujet du message
+						set content to salutations1 & return & contenuMessage & return & return & salutations2 --(string) : Le contenu du message
 						set visible to true --(boolean) : Affiche le message ˆ l'Žcran.		
 					end tell
 					activate
@@ -179,3 +209,91 @@ on run
 	choose file with prompt "Choisissez un fichier ˆ dŽposer sur le serveur FTP de free (dl.free.fr)"
 	open {result}
 end run
+
+
+-- Une fonction pour atteindre le sous-menu d'une application
+-- useful function to click an application sub-menu
+on do_menu(app_name, menu_name, menu_item)
+	try
+		-- bring the target application to the front
+		tell application app_name
+			activate
+		end tell
+		tell application "System Events"
+			tell process app_name
+				tell menu bar 1
+					tell menu bar item menu_name
+						tell menu menu_name
+							click menu item menu_item
+						end tell
+					end tell
+				end tell
+			end tell
+		end tell
+		return true
+	on error error_message
+		return false
+	end try
+end do_menu
+
+
+-- Test si l'application "processName" est en lancŽe ou pas
+on test_process(processName)
+	tell application "System Events"
+		set myList to (name of every process)
+	end tell
+	
+	return (myList contains processName)
+end test_process
+
+
+on creerFichierConfigFTP()
+	
+	set _login to demandeInfo("Entrez l'identifiant de connexion ˆ free.fr :", "machin@free.fr")
+	
+	set _password1 to "password1"
+	set _password2 to "password2"
+	
+	repeat until _password1 = _password2
+		
+		set _password1 to demandeMotDePasse("Entrez le mot de passe :")
+		set _password2 to demandeMotDePasse("Confirmez le mot de passe :")
+		
+	end repeat
+	
+	set _password to _password1
+	
+	do shell script "printf \"machine\\t _machine\\nlogin\\t_login\\npassword\\t_password\\n\" > $HOME/.netro & chmod go-r $HOME/.netro"
+	
+end creerFichierConfigFTP
+
+
+on demandeInfo(question, proposition)
+	set theResult to ""
+	repeat while theResult = ""
+		set theResult to text returned of Â
+			(display dialog (question) Â
+				default answer (proposition) Â
+				buttons {"Annuler", "Continuer"} Â
+				default button ("Continuer") Â
+				giving up after 295)
+	end repeat
+	return theResult
+end demandeInfo
+
+on demandeMotDePasse(question)
+	set _reponse to ""
+	set _button to "OK"
+	repeat while _reponse = "" -- or _button is not equal to "Annuler"
+		set _listReponse to Â
+			(display dialog (question) Â
+				default answer ("") Â
+				buttons {"Annuler", "Continuer"} Â
+				default button ("Continuer") Â
+				giving up after 295 Â
+				with hidden answer)
+		set _reponse to text returned of _listReponse
+		set _button to button returned of _listReponse
+	end repeat
+	return _reponse
+end demandeMotDePasse
