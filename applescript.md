@@ -236,22 +236,30 @@ is equal to, is not equal to, equals, and so on
 
 ### Récupérer la date
 
-    set theDate to current date
-    --resultat : "Friday, November 9, 2007 11:35:50 AM"
+    set dateDuJour to current date -- ou date string of (current date)
+    --> resultat : date "mardi 1 novembre 2011 14:08:39"
+    short date string of dateDuJour
+    --> resultat : date "01/11/2011"
+    set {year:y, month:m, day:d, hours:h, minutes:min} to (current date)
+    set todayDate to (d & "-" & (m as integer) & "-" & y & "-" & h & "-" & min) as string
+    
+    time string of (dateDuJour)                 --> heures:minutes:secondes
+    weekday of (dateDuJour) as text             --> jour
+    month of (dateDuJour)                       --> mois
+    year of (dateDuJour)                        --> année
+    (time of (dateDuJour)) div 3600             --> heure
+    ((time of (dateDuJour)) mod 3600) div 60    --> minutes
+    (time of (dateDuJour)) mod 60               --> secondes
+
  
 ### Créer une date
 
     set ma_date to date "01/11/2011"
-    -- resultat : "mardi 1 novembre 2011 00:00:00"
-    display alert "Date et heure du jour: " & (current date)
-    display alert "Date au format JJ/MM/AA: " & short date string of (current date)
-    display alert "Heure: " & time string of (current date)
-    display alert "Jour: " & (localized string of (weekday of (current date) as text))
-    display alert "Mois: " & month of (current date)
-    display alert "Année: " & year of (current date)
-    display alert "Heures: " & (time of (current date)) div 3600
-    display alert "Minutes: " & ((time of (current date)) mod 3600) div 60
-    display alert "Secondes: " & (time of (current date)) mod 60
+    --> resultat : "mardi 1 novembre 2011 00:00:00"
+    set ma_date to date "mardi 1 novembre 2011 00:00:00"
+    --> resultat : "mardi 1 novembre 2011 00:00:00"
+
+
 
 ### Ajouter du temps à une date
 
@@ -338,17 +346,17 @@ is equal to, is not equal to, equals, and so on
 
     product of myRecord
     price of myRecord
-    
+
 ### Modifier une valeur d'un record
 
     set product of myRecord to "pencil"
-    
-### compter le nombre dans un record
+
+### Compter le nombre dans un record
 
     length of {name:"Chris", mileage:1957, city:"Kalamazoo"} --result: 3
     count of {name:"Chris", mileage:1957, city:"Kalamazoo"} --result: 3
-    
-### mauvaise manière de récupérer une valeur d'un record
+
+### Mauvaise manière de récupérer une valeur d'un record
 
     item 2 of {product:"pen", price:2.34}
 
@@ -448,7 +456,7 @@ Si nous revenons à la définition de l'objet `application` de la suite "TextEdi
 	name (text, r/o) : The name of the application.
 	version (text, r/o) : The version of the application.
 
-Un objet `application`, en général (car la suite "Standard Suite" est valable pour tous les dictionnaires d'application), contient des collections de `document` et de `window`. Ses propriétés sont: un nom (`name`, de la classe `text`, en lecture seule), une version (`version`, de la classe `text`, en lecture seule), et un statut active ou non (`frontmost`, de la classe `boolean`, en lecture seule).
+Un objet `application`, en général (car la suite "Standard Suite" est valable pour tous les dictionnaires d'application), contient des collections de `document` et de `window`. Ses propriétés sont : un nom (`name`, de la classe `text`, en lecture seule), une version (`version`, de la classe `text`, en lecture seule), et un statut active ou non (`frontmost`, de la classe `boolean`, en lecture seule).
 
 Ainsi, on pourrait manipuler l'objet application TextEdit de la façon suivante:
 
@@ -472,48 +480,7 @@ Attention ! Il est important de signaler que la classe `text` dont il est fait r
 
 On pourra manipuler un objet de cette classe en créant un document dans TextEdit et en y collant un texte de son cru, puis en lançant le script suivant:
 
-### Utiliser une boîte de dialogue
-
-	tell application "System Events"
-		set retour to ""
-		set reponse to missing value
-		try
-			-- Si on ne mets pas: cancel button "Annuler"
-			-- on obtient: error -1708
-			set reponse to display dialog ¬
-				"Entrer le lieu de départ de l'itinéraire" default answer ¬
-				"17 rue du Liron 30133 LES ANGLES" buttons {"Annuler", "OK"} ¬
-				default button 2 ¬
-				cancel button ¬
-				"Annuler" with icon caution ¬
-				with title "OT"
-			set retour to text returned of reponse
-		on error
-			--display alert "mon erreur"
-		end try
-		return retour
-	end tell
-
-
-### Récupérer une liste dans une dialog
-
-    property parent : application "TextMate"
-    
-    
-    display dialog "Taper une liste de nom séparés par des virgules" ¬
-        default answer "default answer" ¬
-        with icon 1 ¬
-        buttons {"Cancel", "OK"} ¬
-        default button "OK"
-    --set button_pressed to the button returned of result
-    --set tutu to the text returned of result
-    copy the result as list to {text_returned, button_pressed}
-    if button_pressed is "OK" then
-        text_returned
-    else
-        -- statements for cancel button
-    end if
-
+---
 
 ## Références
 
@@ -554,6 +521,8 @@ Il est possible de créer des scripts shell en applescript en commençant le fic
 
     #!/usr/bin/osascript
 
+
+---
 
 ## A approfondir
 
