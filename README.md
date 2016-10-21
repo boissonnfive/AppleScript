@@ -33,7 +33,28 @@ En l'occurence, il s'agit d'un scipt pour créer un en-tête dans un nouveau fic
 
 Script qui crée un calendrier de couleur à partir des dates d'anniversaire des contacts de l'application "Contacts".
 
-
 ## Fichier "applescript.md"
 
-Mes notes sur Applescript.
+Ma synthèse sur le langage Applescript.
+
+## Fichier "Mes notes sur AppleScript.md"
+
+Quelques cas d'utilisation d’AppleScript.
+
+## Eloquentjs et ProGitFr
+
+Permet de transformer un livre HTML en ligne en un livre au format PDF grâce à Applescript.
+
+## Fichier "soap.applescript"
+
+Connexion à un web service en utilisant SOAP avec AppleScript.
+
+## Fichier "toggle_hidden_extension.sh"
+
+Montre comment utiliser AppleScript dans un script shell.
+([Show/hide extension of a file through OS X command line](http://superuser.com/questions/399899/show-hide-extension-of-a-file-through-os-x-command-line/1137369))
+
+
+
+
+
