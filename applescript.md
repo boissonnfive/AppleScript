@@ -395,6 +395,14 @@ is equal to, is not equal to, equals, and so on
 ### Extraire une partie d'un texte
 
 
+## Les expressions régulières ##
+
+AppleScript ne permet pas de manipuler des expressions régulières. Il y a donc 3 possibilité :
+
+- utiliser un composant osax : [Satimage osax](http://www.satimage.fr/software/en/downloads/downloads_companion_osaxen.html)
+- utiliser un outil de ligne de commande : sed, grep, awk, etc ...
+- coder en applescript la recher du patron
+
 
 ## AppleScript dans Mac OS X
 
