@@ -79,4 +79,22 @@ tell application "http://www.webservicex.net/stockquote.asmx?WSDL"
 	call soap {method name:"GetQuote", parameters:{|m:symbol|:"IBM"}, method namespace uri:"http://www.webserviceX.NET/", SOAPAction:"http://www.webserviceX.NET/GetQuote"}
 end tell
 
+-- Renvoie les informations concernant la valeur défini par son symbole dans le New York Stock Exchange (NYSE)
+-- Liste des symbôles du NYSE : https://www.nyse.com/listings_directory/stock
+-- Liste des 100 meilleures valeurs du NYSE : http://www.wsj.com/mdc/public/page/2_3021-activnyse-actives.html
+-- Ici, on recherche la valeur Abbott Laboratories (ABT)
+-- Coca-Cola (KO)
+-- Bank of America (BAC)
+-- Nike Cl B (NKE)
+-- JPMorgan Chase (JPM)
+-- General Motors (GM)
+
+-- ATTENTION! Il faut attendre au moins 5 minutes entre chaque requête
+tell application "http://www.webservicex.net/stockquote.asmx?WSDL"
+	call soap {method name:"GetQuote", parameters:{|m:symbol|:"BAC" as string}, method namespace uri:"http://www.webserviceX.NET/", SOAPAction:"http://www.webserviceX.NET/GetQuote"}
+end tell
+
+(*
+"<StockQuotes><Stock><Symbol>BAC</Symbol><Last>24.23</Last><Date>9/14/2017</Date><Time>3:45pm</Time><Change>-0.10</Change><Open>24.38</Open><High>24.54</High><Low>24.20</Low><Volume>57857396</Volume><MktCap>254.81B</MktCap><PreviousClose>24.33</PreviousClose><PercentageChange>-0.41%</PercentageChange><AnnRange>14.81 - 25.80</AnnRange><Earns>1.68</Earns><P-E>14.43</P-E><Name>Bank of America Corporation</Name></Stock></StockQuotes>"
+*)
 
