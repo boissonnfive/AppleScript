@@ -81,7 +81,7 @@ local bubu, bobo, baba -- la portée sera le script entier, cad la fonction run 
 
 -- variable globale
 global toto, tutu, tata -- la portée sera le script entier
-```applescript
+```
 
 [1]: #id
 
@@ -145,14 +145,16 @@ Taille de l'enregistrement : count of varRecord
 
 #### Les conditions
 
-	set x to 3
-	if x > 10 then
-	log "x est supérieur à 10"
-	else if x = 10 then
-	log "x est égal à 10"
-	else
-	log "x est strictement inférieur à 10"
-	end if
+```applescript
+set x to 3
+if x > 10 then
+    log "x est supérieur à 10"
+else if x = 10 then
+    log "x est égal à 10"
+else
+    log "x est strictement inférieur à 10"
+end if
+```
 
 **Les opérateurs de comparaison booléens**
 
@@ -161,35 +163,38 @@ is equal to, is not equal to, equals, and so on
 
 #### Les boucles
 
-	set noms to {"bruno", "marine", "marc"}
-	repeat with i in noms
-	   log i
-	end repeat
-
-	repeat with i from 1 to count of noms
-	   log "nom n°" & i & ": " & item i of noms
-	end repeat
-
-	set rep_non to false
-	repeat while (rep_non is false)
-		set reponse to display dialog "On continue?" buttons {"Non", "Oui"} default button 2
-	
-		if button returned of reponse is "Non" then
-			set rep_non to true
-		end if
-	end repeat
-
+```applescript
+set noms to {"bruno", "marine", "marc"}
+repeat with i in noms
+   log i
+end repeat
+```
+```applescript
+repeat with i from 1 to count of noms
+   log "nom n°" & i & ": " & item i of noms
+end repeat
+```
+```applescript
+set rep_non to false
+repeat while (rep_non is false)
+	set reponse to display dialog "On continue?" buttons {"Non", "Oui"} default button 2
+	if button returned of reponse is "Non" then
+		set rep_non to true
+	end if
+end repeat
+```
 
 #### La gestion des erreurs
 
-	set x to 4
-	set y to 0
-	try
-	   x/y
-	on error
-	   log "Division impossible par 0"
-	end try
-	
+```applescript
+set x to 4
+set y to 0
+try
+   x/y
+on error
+   log "Division impossible par 0"
+end try
+```	
 
 
 
@@ -202,21 +207,20 @@ is equal to, is not equal to, equals, and so on
 - Un script a toujours une propriété `parent`
 - Un objet peut être converti en un autre objet (cf tableau) par l'opérateur "as" ou automatiquement lors d'une opération
 
-exemple:
+```applescript
+script monObjet
+    property maProp : "Bruno"
+    on bonjour()
+        display alert "Bonjour " & maProp
+    end bonjour
+    display alert "Méthode run lancée"
+end script
 
-    script monObjet
-        property maProp : "Bruno"
-        on bonjour()
-            display alert "Bonjour " & maProp
-        end bonjour
-        display alert "Méthode run lancée"
-    end script
-
-    set maProp of monObjet to "Marc"
-    tell monObjet to bonjour() --result: "Bonjour Marc"
-    run of monObjet --result: "Méthode run lancée"
-	display alert (name of (parent of monObjet) as string) --result: "Script Editor"
-
+set maProp of monObjet to "Marc"
+tell monObjet to bonjour() --result: "Bonjour Marc"
+run of monObjet --result: "Méthode run lancée"
+display alert (name of (parent of monObjet) as string) --result: "Script Editor"
+```
 
 ### Héritage
 
@@ -233,41 +237,41 @@ exemple:
 - on utilise aussi les parenthèses lorsque l'on veut définir les types des paramètres
 - une méthode peut être récursive (mais se pose le problème de l'occupation mémoire)
 
-ex:
+```applescript
+to findNumbers of numberList above minLimit given rounding:roundBoolean
+    set resultList to {}
+    repeat with i from 1 to (count items of numberList)
+        set x to item i of numberList
+        if roundBoolean then -- round the number
+            -- Use copy so original list isn’t modified.
+            copy (round x) to x
+        end if
+        if x > minLimit then
+            set end of resultList to x
+        end if
+    end repeat
+    return resultList
+end findNumbers
 
-    to findNumbers of numberList above minLimit given rounding:roundBoolean
-        set resultList to {}
-        repeat with i from 1 to (count items of numberList)
-            set x to item i of numberList
-            if roundBoolean then -- round the number
-                -- Use copy so original list isn’t modified.
-                copy (round x) to x
-            end if
-            if x > minLimit then
-                set end of resultList to x
-            end if
-        end repeat
-        return resultList
-    end findNumbers
-    
-    set myList to {2, 5, 19.75, 99, 1}
-    findNumbers of myList above 19 given rounding:true
-    --result: {20, 99}
-    findNumbers of myList above 19 given rounding:false
-    --result: {19.75, 99}
+set myList to {2, 5, 19.75, 99, 1}
+findNumbers of myList above 19 given rounding:true
+--result: {20, 99}
+findNumbers of myList above 19 given rounding:false
+--result: {19.75, 99}
+```
 
-ex:
-
-    on hello(a, b, {length:l, bounds:{x, y, w, h}, name:n})
-        set q to a   b
-        set response to "Hello" & n & ",you are" & l & ¬
-        "inches tall and occupy position (" & x & "," & y & ")."
-        display dialog response
-    end hello
-    set thing to {bounds:{1, 2, 4, 5}, name:"George", length:72}
-    hello (2,  3, thing)
-    --result: A dialog displaying "Hello George, you are 72 inches tall
-    -- and occupy position (1,2)."
+```applescript
+on hello(a, b, {length:l, bounds:{x, y, w, h}, name:n})
+    set q to a   b
+    set response to "Hello" & n & ",you are" & l & ¬
+    "inches tall and occupy position (" & x & "," & y & ")."
+    display dialog response
+end hello
+set thing to {bounds:{1, 2, 4, 5}, name:"George", length:72}
+hello (2,  3, thing)
+--result: A dialog displaying "Hello George, you are 72 inches tall
+-- and occupy position (1,2)."
+```
 
 ### Les mots clés it and me
 
@@ -293,65 +297,72 @@ On les utilise pour différencier les actions et propriétés du script et de la
 
 ### Récupérer la date
 
-    set dateDuJour to current date -- ou date string of (current date)
-    --> resultat : date "mardi 1 novembre 2011 14:08:39"
-    short date string of dateDuJour
-    --> resultat : date "01/11/2011"
-    set {year:y, month:m, day:d, hours:h, minutes:min} to (current date)
-    set todayDate to (d & "-" & (m as integer) & "-" & y & "-" & h & "-" & min) as string
-    
-    time string of (dateDuJour)                 --> heures:minutes:secondes
-    weekday of (dateDuJour) as text             --> jour
-    month of (dateDuJour)                       --> mois
-    year of (dateDuJour)                        --> année
-    (time of (dateDuJour)) div 3600             --> heure
-    ((time of (dateDuJour)) mod 3600) div 60    --> minutes
-    (time of (dateDuJour)) mod 60               --> secondes
+```applescript
+set dateDuJour to current date -- ou date string of (current date)
+--> resultat : date "mardi 1 novembre 2011 14:08:39"
+short date string of dateDuJour
+--> resultat : date "01/11/2011"
+set {year:y, month:m, day:d, hours:h, minutes:min} to (current date)
+set todayDate to (d & "-" & (m as integer) & "-" & y & "-" & h & "-" & min) as string
 
+time string of (dateDuJour)                 --> heures:minutes:secondes
+weekday of (dateDuJour) as text             --> jour
+month of (dateDuJour)                       --> mois
+year of (dateDuJour)                        --> année
+(time of (dateDuJour)) div 3600             --> heure
+((time of (dateDuJour)) mod 3600) div 60    --> minutes
+(time of (dateDuJour)) mod 60               --> secondes
+```
  
 ### Créer une date
 
-    set ma_date to date "01/11/2011"
-    --> resultat : "mardi 1 novembre 2011 00:00:00"
-    set ma_date to date "mardi 1 novembre 2011 00:00:00"
-    --> resultat : "mardi 1 novembre 2011 00:00:00"
-
+```applescript
+set ma_date to date "01/11/2011"
+--> resultat : "mardi 1 novembre 2011 00:00:00"
+set ma_date to date "mardi 1 novembre 2011 00:00:00"
+--> resultat : "mardi 1 novembre 2011 00:00:00"
+```
 
 ### Ajouter du temps à une date
 
-    set myDate to (current date)   (4 * days   3 * hours   2 * minutes) - (1 * days   5 * hours   31 * minutes)
-    -- resultat : current date => date "mardi 1 novembre 2011 14:08:39"
-    -- resultat : date "vendredi 4 novembre 2011 11:39:39"
-
+```applescript
+set myDate to (current date)   (4 * days   3 * hours   2 * minutes) - (1 * days   5 * hours   31 * minutes)
+-- resultat : current date => date "mardi 1 novembre 2011 14:08:39"
+-- resultat : date "vendredi 4 novembre 2011 11:39:39"
+```
 
 ### Mesurer un temps
 
-    set t to (time of (current date)) -- début
-    -- instructions ...
-    set total to (time of (current date)) - t -- fin
-
+```applescript
+set t to (time of (current date)) -- début
+-- instructions ...
+set total to (time of (current date)) - t -- fin
+```
 
 ### Récupérer la date en français
 
-    set mon_instant to current date
-    set en_francais to mon_instant as string
-    set mon_jour_semaine_fr to 1st word of en_francais
-    set mon_jour_fr to 2nd word of en_francais
-    set mon_mois_fr to 3rd word of en_francais
-    set mon_annee_fr to 4th word of en_francais
-    set mon_heure_fr to 5th word of en_francais
-    set ma_minute_fr to 6th word of en_francais
-    set ma_seconde_fr to 7th word of en_francais
+```applescript
+set mon_instant to current date
+set en_francais to mon_instant as string
+set mon_jour_semaine_fr to 1st word of en_francais
+set mon_jour_fr to 2nd word of en_francais
+set mon_mois_fr to 3rd word of en_francais
+set mon_annee_fr to 4th word of en_francais
+set mon_heure_fr to 6th word of en_francais
+set ma_minute_fr to 7th word of en_francais
+set ma_seconde_fr to 8th word of en_francais
 
+set ma_date_fr to ""
+set ma_date_fr to ma_date_fr & "Jour de la semaine : " & mon_jour_semaine_fr & return
+set ma_date_fr to ma_date_fr & "Jour du mois : " & mon_jour_fr & return
+set ma_date_fr to ma_date_fr & "Mois : " & mon_mois_fr & return
+set ma_date_fr to ma_date_fr & "Année : " & mon_annee_fr & return
+set ma_date_fr to ma_date_fr & "Heures : " & mon_heure_fr & return
+set ma_date_fr to ma_date_fr & "Minutes : " & ma_minute_fr & return
+set ma_date_fr to ma_date_fr & "Secondes : " & ma_seconde_fr
 
-    display alert mon_jour_semaine_fr
-    display alert mon_jour_fr
-    display alert mon_mois_fr
-    display alert mon_annee_fr
-    display alert mon_heure_fr
-    display alert ma_minute_fr
-    display alert ma_seconde_fr
-
+display alert ma_date_fr
+```
 
 
 ## Manipuler des listes
@@ -366,27 +377,33 @@ On les utilise pour différencier les actions et propriétés du script et de la
 
 ### Créer une liste
 
-    set myList to {"Bruno", 12.4, "01/11/2011"}
+```applescript
+set myList to {"Bruno", 12.4, "01/11/2011"}
+```
 
 ### Récupérer un ou des éléments d'un liste
 
-    item 3 of {"this", "is", "a", "list"} --result: "a"
-    items 2 thru 3 of {"soup", 2, "nuts"} --result: {2, "nuts"}
+```applescript
+item 3 of {"this", "is", "a", "list"} --> "a"
+items 2 thru 3 of {"soup", 2, "nuts"} --> {2, "nuts"}
+```
 
 ### Compter le nombre d'éléments
 
-    count {"a", "b", "c", 1, 2, 3} --result: 6
-    length of {"a", "b", "c", 1, 2, 3} --result: 6
+```applescript
+count {"a", "b", "c", 1, 2, 3} --result: 6
+length of {"a", "b", "c", 1, 2, 3} --result: 6
+```
 
 ### Ajouter un élément à une liste
 
-    {"This"} & {"is", "a", "list"} --result: {"This", "is", "a", "list"}
-    set myList to {1, "what", 3} --result: {1, "what", 3}
-    set beginning of myList to 0
-    set end of myList to "four"
-    myList --result: {0, 1, "what", 3, "four"}
-
-
+```applescript
+{"This"} & {"is", "a", "list"} --> {"This", "is", "a", "list"}
+set myList to {1, "what", 3} --> {1, "what", 3}
+set beginning of myList to 0
+set end of myList to "four"
+myList --> {0, 1, "what", 3, "four"}
+```
 
 ## Manipuler des enregistrements
 
@@ -398,26 +415,35 @@ On les utilise pour différencier les actions et propriétés du script et de la
 
 ### Créer une variable record
 
-    set myRecord to {product:"pen", price:2.34}
+```applescript
+set myRecord to {product:"pen", price:2.34}
+```
 
 ### Récupérer une valeur d'un record
 
-    product of myRecord
-    price of myRecord
+```applescript
+product of myRecord
+price of myRecord
+```
 
 ### Modifier une valeur d'un record
 
-    set product of myRecord to "pencil"
+```applescript
+set product of myRecord to "pencil"
+```
 
-### Compter le nombre dans un record
+### Compter le nombre de propriétés dans un record
 
-    length of {name:"Chris", mileage:1957, city:"Kalamazoo"} --result: 3
-    count of {name:"Chris", mileage:1957, city:"Kalamazoo"} --result: 3
+```applescript
+length of {name:"Chris", mileage:1957, city:"Kalamazoo"} --> 3
+count of {name:"Chris", mileage:1957, city:"Kalamazoo"}  --> 3
+```
 
 ### Mauvaise manière de récupérer une valeur d'un record
 
-    item 2 of {product:"pen", price:2.34}
-
+```applescript
+item 2 of {product:"pen", price:2.34}
+```
 
 
 ## Manipuler du texte
@@ -446,7 +472,9 @@ On les utilise pour différencier les actions et propriétés du script et de la
 
 ### Concaténer du texte
 
-	set ma_phase to "un debut" & " et " & "une fin" --result: "un début et une fin"
+```applescript
+set ma_phase to "un debut" & " et " & "une fin" --> "un début et une fin"
+```
 
 ### Retrouver une partie d'un texte
 
@@ -486,8 +514,10 @@ Le dictionnaire contient:
 
 Le tout premier objet de TextEdit est l'application elle-même, c'est-à-dire l'objet `application`. Pour utiliser un objet AppleScript, on procède de la sorte:
 
-	tell application "TextEdit"
-	end tell
+```applescript
+tell application "TextEdit"
+end tell
+```
 
 Entre les bornes du bloc tell, on pourra manipuler tous les objets contenus par l'application TextEdit. D'ailleurs, d'après sa définition, l'objet application contient des objet de la classe `documents`. Par convention, on met un "s" à la fin d'une classe quand il s'agit d'une collection (liste) de cette classe. Nous avons donc affaire à une liste d'objets de la classe `document`. Il est logique de parcourir le dictionnaire pour voir la définition de `document`.
 
@@ -503,13 +533,15 @@ Traduction: un document est un objet héritant de la classe `item`, contenu par 
 
 Une première utilisation, pourrait être de lister les documents contenus par l'application TextEdit et d'afficher pour chacun son nom, son chemin et son statut.
 
-	tell application "TextEdit"
-		repeat with doc in documents
-			tell doc to display alert "Nom du document: " & name & return ¬
-				& "Chemin du document: " & path & return ¬
-				& "Statut du document: " & modified
-			end repeat
-	end tell
+```applescript
+tell application "TextEdit"
+	repeat with doc in documents
+		tell doc to display alert "Nom du document: " & name & return ¬
+			& "Chemin du document: " & path & return ¬
+			& "Statut du document: " & modified
+		end repeat
+end tell
+```
 
 (On notera la conversion implicite de `boolean` à `text`.)
 
@@ -527,11 +559,13 @@ Un objet `application`, en général (car la suite "Standard Suite" est valable 
 
 Ainsi, on pourrait manipuler l'objet application TextEdit de la façon suivante:
 
-	tell application "TextEdit"
-		display alert "Nom de l'application: " & name & return ¬
-			& "Version: " & version & return ¬
-			& "Active: " & frontmost
-	end tell
+```applescript
+tell application "TextEdit"
+	display alert "Nom de l'application: " & name & return ¬
+		& "Version: " & version & return ¬
+		& "Active: " & frontmost
+end tell
+```
 
 De même, nous n'avons regardé que la définition de la classe `document` de la suite "Standard Suite". La suite "TextEdit Suite" ajoute une propriété à la classe document: le texte contenu dans le document (`text`, de la classe `text`).
 
@@ -547,7 +581,8 @@ Attention ! Il est important de signaler que la classe `text` dont il est fait r
 
 On pourra manipuler un objet de cette classe en créant un document dans TextEdit et en y collant un texte de son cru, puis en lançant le script suivant:
 
----
+```applescript
+```
 
 
 * * *
