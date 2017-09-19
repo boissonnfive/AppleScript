@@ -1,5 +1,10 @@
 # Applescript
 
+![Applescript](applescript.png)
+
+[AppleScript Language Guide](https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html)
+[Mac Automation Scripting Guide](https://developer.apple.com/library/content/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/AutomatetheUserInterface.html#//apple_ref/doc/uid/TP40016239-CH69-SW1)
+
 ## Le langage
 
 ### Les instructions
