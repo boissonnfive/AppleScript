@@ -1,15 +1,12 @@
 # Applescript
 
-<http://helposx.apple.com/apdredirects/en/redir8121.html>
-
-
 ## Le langage
 
 ### Les instructions
 
 - une instruction tient sur une ligne
 - toute instruction retourne un résultat
-- le résultat d'une instruction est stockée dans la propriété globale "result"
+- le résultat d'une instruction est stockée dans la propriété globale `result`
 - un bloc d'instructions tient sur plusieurs lignes et se termine par le mot "end"
 - une instruction se compose de mots clés, d'opérateur et de noms de variables
 - les caractères blancs (espace, tabulation, saut de ligne) sont ignorés.
@@ -18,24 +15,26 @@
 
 ⌥ ↩ pour continuer une instruction à la ligne
 
-    display dialog "This is just a test." buttons {"Great", "OK"} ¬
-    default button "OK" giving up after 3
+```applescript
+display dialog "This is just a test." buttons {"Great", "OK"} ¬
+default button "OK" giving up after 3
+```
 
 ### Les commentaires
 
 Un commentaire est une ligne de code qui est ignorée. Cela permet d'insérer dans le code des informations qui permettront de le rendre plus compréhensible. Cela permet aussi d'ignorer des instructions.
 
-exemples
-
-	-- Affiche une boîte de dialogue qui dit "Coucou!"
-	display dialog "coucou!"
-    (*
-     Commentaires sur
-	 plusieurs
-	 lignes
-    *)
-    -- commentaire sur une ligne
-    # commentaire sur une ligne
+```applescript
+-- Affiche une boîte de dialogue qui dit "Coucou!"
+display dialog "coucou!"
+(*
+ Commentaires sur
+ plusieurs
+ lignes
+*)
+-- commentaire sur une ligne
+\# commentaire sur une ligne
+```
 
 Les commentaires peuvent s'encapsuler et peuvent être ajoutés à la fin d'une ligne de code.
 	
@@ -68,24 +67,78 @@ Ce sont en fait des classes.
       + doit être initialisée sinon erreur
       + si on veut utiliser une variable globale dans une action, il faut faire une déclaration (ex: global ma_variable)
 
-exemples
+```applescript
+-- variable propriété
+property nomDuScript "script de test"
 
-	-- variable propriété
-	property nomDuScript "script de test"
-	
-	-- variable locale
-	local bubu, bobo, baba -- la portée sera le script entier, cad la fonction run implicite
-	
-	-- variable globale
-	global toto, tutu, tata -- la portée sera le script entier
+-- variable locale
+local bubu, bobo, baba -- la portée sera le script entier, cad la fonction run implicite
 
+-- variable globale
+global toto, tutu, tata -- la portée sera le script entier
+```applescript
 
 [1]: #id
+
+#### Les nombres ####
+
+- number   : tout les types nombre
+- entier   : integer
+- décimaux : real
+
+#### Les chaînes ####
+
+- entourées par des guillemets
+- concaténation : &
+- longueur        : length of
+- guillemets  : à échapper avec \ (\") ou """
+- caractère spéciaux : \n, \t, \r
+- chaîne vers liste de caractères : every character of chaine
+- chaîne vers liste de mots : every word of chaine
+- chaine vers liste de lignes : every paragraph of chaine
+- text item delimiters : déliminteur permettant de transformer une chaîne en liste (à modifier si nécessaire)
+
+#### Listes ####
+
+item 1, item 2, ...
+first (1st), second (2nd), ... tenth (10th)
+last : dernier élément de la liste
+
+item -1 <=> last
+item -2 <=> avant dernier
+etc ...
+
+items 2 through 5 of liste : sous-liste 
+items 5 through 2 of liste : même chose
+reverse of liste : inverse l'ordre de la liste
+taille de la liste : length ou count
+some item of liste : élément au hasard
+
+#### Coercitions ####
+
+- chaîne vers liste : every character of chaine
+- liste vers chaine : chaine as list
+
+*ATTENTION ! La coercition dépend du paramètre "text item delimiters".*
+ 
+ 
+#### Enregistrements ####
+
+C'est une liste de propriétés => accolades {} et virgules entre les propriétés
+Chaque propriété possède deux parties séparées par le symbole deux-point :
+- une étiquette/nom
+- une valeur
+
+=> {nom1:val1,nom2:val2...,nom10:val10}
+
+ex : {hauteur: 10.0, largeur: 15.0}
+
+Taille de l'enregistrement : count of varRecord
 
 
 ### Les structures de contrôle
 
-conditions:
+#### Les conditions
 
 	set x to 3
 	if x > 10 then
@@ -96,17 +149,22 @@ conditions:
 	log "x est strictement inférieur à 10"
 	end if
 
-boucle:
+**Les opérateurs de comparaison booléens**
+
+and, or, not, &, =, and ≠
+is equal to, is not equal to, equals, and so on
+
+#### Les boucles
 
 	set noms to {"bruno", "marine", "marc"}
 	repeat with i in noms
-	log i
+	   log i
 	end repeat
-	
+
 	repeat with i from 1 to count of noms
-	log "nom n°" & i & ": " & item i of noms
+	   log "nom n°" & i & ": " & item i of noms
 	end repeat
-	
+
 	set rep_non to false
 	repeat while (rep_non is false)
 		set reponse to display dialog "On continue?" buttons {"Non", "Oui"} default button 2
@@ -117,14 +175,14 @@ boucle:
 	end repeat
 
 
-Gestion des erreurs:
+#### La gestion des erreurs
 
 	set x to 4
 	set y to 0
 	try
-	x/y
+	   x/y
 	on error
-	log "Division impossible par 0"
+	   log "Division impossible par 0"
 	end try
 	
 
@@ -206,26 +264,20 @@ ex:
     --result: A dialog displaying "Hello George, you are 72 inches tall
     -- and occupy position (1,2)."
 
-## Les types des script
+### Les mots clés it and me
 
-- text (.applescript) : mon format préféré car facile à archiver
-- script compilé (.scpt) : format standard des scripts et des bibliothèques de scripts
-- Paquets de script (.scptd) : format pour les bibliothèques de scripts
-- application (.app) : format pour les applications
-      + Écran de démarrage : affiche au démarrage ce qu'on a écrit dans le panneau "Description" de l'Éditeur AppleScript
-      + Rester en arrière-plan : pour les applications qui gèrent la méthode `idle`
+- `me` fait référence au script en cours (of me = my)
+- `it` fait référence à la cible en cours ou sinon vaut me (of it = its)
+
+On les utilise pour différencier les actions et propriétés du script et de la cible (ex: my superFonction(param) dans un bloc tell permet d'appeler la fonction du script et pas de la cible du tell).
+
+### Les Abbréviations
+
+- app  <= application
+- thru <= throuh
 
 
 * * *
-
-## Manipuler des booléens
-
-### Les opérateurs de comparaison booléens
-
-and, or, not, &, =, and ≠
-is equal to, is not equal to, equals, and so on
-
-
 
 ## Manipuler des dates
 
@@ -260,18 +312,19 @@ is equal to, is not equal to, equals, and so on
     --> resultat : "mardi 1 novembre 2011 00:00:00"
 
 
-
 ### Ajouter du temps à une date
 
     set myDate to (current date)   (4 * days   3 * hours   2 * minutes) - (1 * days   5 * hours   31 * minutes)
     -- resultat : current date => date "mardi 1 novembre 2011 14:08:39"
     -- resultat : date "vendredi 4 novembre 2011 11:39:39"
 
+
 ### Mesurer un temps
 
     set t to (time of (current date)) -- début
     -- instructions ...
     set total to (time of (current date)) - t -- fin
+
 
 ### Récupérer la date en français
 
@@ -403,8 +456,9 @@ AppleScript ne permet pas de manipuler des expressions régulières. Il y a donc
 - utiliser un outil de ligne de commande : sed, grep, awk, etc ...
 - coder en applescript la recher du patron
 
+* * *
 
-## AppleScript dans Mac OS X
+## AppleScript dans Mac OS X ##
 
 Dans Mac OS X, l'applescript permet de manipuler des applications, des fenêtres, le système, des bases de données suivant le dictionnaire de chacun.
 
@@ -490,6 +544,9 @@ On pourra manipuler un objet de cette classe en créant un document dans TextEdi
 
 ---
 
+
+* * *
+
 ## Références
 
 ### Les identifiants
@@ -514,23 +571,28 @@ pi, result, Text Constants, text item delimiters, version, current application C
 
 * * *
 
-## Les mots clés it and me
 
-- `me` fait référence au script en cours (of me = my)
-- `it` fait référence à la cible en cours ou sinon vaut me (of it = its)
+* * *
 
-On les utilise pour différencier les actions et propriétés du script et de la cible (ex: my superFonction(param) dans un bloc tell permet d'appeler la fonction du script et pas de la cible du tell).
+## Divers
 
+### Les types des scripts
 
+- text (.applescript) : mon format préféré car facile à archiver
+- script compilé (.scpt) : format standard des scripts et des bibliothèques de scripts
+- Paquets de script (.scptd) : format pour les bibliothèques de scripts
+- application (.app) : format pour les applications
+      + Écran de démarrage : affiche au démarrage ce qu'on a écrit dans le panneau "Description" de l'Éditeur AppleScript
+      + Rester en arrière-plan : pour les applications qui gèrent la méthode `idle`
 
-#### Note :
+### Applescript dans un fichier bash
 
 Il est possible de créer des scripts shell en applescript en commençant le fichier par :
 
     #!/usr/bin/osascript
 
 
----
+* * *
 
 ## A approfondir
 
