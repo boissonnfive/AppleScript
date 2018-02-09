@@ -189,8 +189,9 @@ Pour utiliser les Fichiers/Dossiers, il faut :
 
 ### Récupérer le dossier contenant le script ###
 
-	set dossierParent to container of (path to me)
+	tell application "Finder" to set dossierParent to container of (path to me)
 
+NOTE: container appartient à Finder, path to appartient aux Standard Additions
 
 ### Créer une variable fichier ###
 

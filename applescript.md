@@ -535,11 +535,11 @@ Une première utilisation, pourrait être de lister les documents contenus par l
 
 ```applescript
 tell application "TextEdit"
-	repeat with doc in documents
-		tell doc to display alert "Nom du document: " & name & return ¬
-			& "Chemin du document: " & path & return ¬
-			& "Statut du document: " & modified
-		end repeat
+    repeat with doc in documents
+        tell doc to display alert "Nom du document : " & name & return ¬
+            & "Chemin du document : " & path & return ¬
+            & "Document modifié depuis la dernière sauvegarde : " & modified
+    end repeat
 end tell
 ```
 

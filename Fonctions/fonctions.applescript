@@ -299,6 +299,28 @@ end makeDateFr
 
 
 
+(*
+ logToFile :    Ècrit une ligne (en UTF-8) ‡ la fin du fichier referenceVersFichierLog.
+ ligne :        le texte ‡ Ècrire dans le fichier.
+ rÈsultat :     Aucun.
+ *)
+property fichierLog : POSIX file "/Users/bruno/Desktop/log.txt"
+property referenceVersFichierLog : ""
+set referenceVersFichierLog to open for access fichierLog with write permission
+on logToFile(ligne)
+
+    set ligne to ligne & "\n"
+
+    try
+        set referenceVersFichierLog to open for access fichierLog with write permission
+        write ligne to referenceVersFichierLog starting at eof as ´class utf8ª
+    on error
+        close access referenceVersFichierLog
+    end try
+    
+end logToFile
+
+
 -- Test si l'application "processName" est en lancée ou pas
 -- Trois façons de faire
 
