@@ -1,4 +1,4 @@
-# progitfr.applescript #
+# eloquentjs.applescript #
 
 ## Description ##
 
