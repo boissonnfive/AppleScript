@@ -184,6 +184,8 @@ repeat while (rep_non is false)
 end repeat
 ```
 
+*NOTE: pour sortir d'une boucle `exit repeat`*
+
 #### La gestion des erreurs
 
 ```applescript
