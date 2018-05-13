@@ -159,7 +159,9 @@ end if
 **Les opérateurs de comparaison booléens**
 
 and, or, not, &, =, and ≠
-is equal to, is not equal to, equals, and so on
+=, is equal to, equals
+≠, <>, is not equal to
+\>, <, >=, <=, 
 
 #### Les boucles
 
@@ -489,7 +491,7 @@ AppleScript ne permet pas de manipuler des expressions régulières. Il y a donc
 
 - utiliser un composant osax : [Satimage osax](http://www.satimage.fr/software/en/downloads/downloads_companion_osaxen.html)
 - utiliser un outil de ligne de commande : sed, grep, awk, etc ...
-- coder en applescript la recher du patron
+- coder en applescript la recherche du patron
 
 * * *
 
@@ -595,8 +597,7 @@ On pourra manipuler un objet de cette classe en créant un document dans TextEdi
 
 Les identifiants permettent de nommer des variables, des classes, des propriétés, des actions.
 
-Un identifiant doit commencer par une lettre et peut contenir les caractères suivants :
-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_
+Un identifiant doit commencer par une lettre et peut contenir les caractères suivants : ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_
 
 Les identifiants ne sont pas sensibles à la casse (myvariable = MyVariable)
 
@@ -608,11 +609,26 @@ about, above, after, against, and, apart from, around, as, aside from, at, back,
 
 ### Liste des constantes globales
 
-pi, result, Text Constants, text item delimiters, version, current application Constant, missing value Constant, true, false.
+pi, result, Text Constants, text item delimiters, version, current application, Constant, missing value, true, false.
 
 
 * * *
 
+## Lancer une commande shell ##
+
+### Les guillemets
+
+Plutôt que d'échapper des guillemets comme ceci :
+
+```applescript
+set commande1 to ("cd \"" & cheminDossierParent as string) & "\""
+```
+
+Utiliser `quoted form of` :
+
+```applescript
+set commande1 to "cd " & quoted form of (cheminDossierParent as string)
+```
 
 * * *
 
