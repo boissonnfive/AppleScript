@@ -53,7 +53,7 @@ set prenom to choose from list mesPrenoms
 ### Boîte de dialogue qui récupère une liste ###
     
  ```applescript
-display dialog ("Taper une liste de nom séparés par des virgules") ¬
+display dialog ("Taper une liste de noms séparés par des virgules") ¬
 default answer ("ex: reponse1, reponse2, reponse3") ¬
 with icon 1 ¬
 buttons {"Annuler", "OK"} ¬
@@ -180,44 +180,57 @@ Pour utiliser les Fichiers/Dossiers, il faut :
 
 ### Récupérer les informations d'un fichier/Dossier ###
 
+```applescript
+tell application "Finder"
     get container of monFichierAlias --> Dossier contenant le fichier (folder)
     name extension of monFichierAlias --> Extension du fichier (string)
     name of monFichierAlias --> Nom du fichier (string)
     modification date of monFichierAlias --> Date de modification (date)
     physical size of monFichierAlias --> Taille (integer)
-
+end tell
+```
 
 ### Récupérer le dossier contenant le script ###
 
-	tell application "Finder" to set dossierParent to container of (path to me)
+```applescript
+tell application "Finder" to set dossierParent to container of (path to me)
+```
 
-NOTE: container appartient à Finder, path to appartient aux Standard Additions
+NOTE: `container` appartient à **Finder**, `path to` appartient aux **Standard Additions**
 
 ### Créer une variable fichier ###
 
 Un alias hors de l'objet application Finder :
 
-    set monFichierAlias to alias "Macintosh HD:Users:bruno:Desktop:test.txt"
-    set monFichierAlias to "Macintosh HD:Users:bruno:Desktop:test.txt" as alias
+```applescript
+set monFichierAlias to alias "Macintosh HD:Users:bruno:Desktop:test.txt"
+set monFichierAlias to "Macintosh HD:Users:bruno:Desktop:test.txt" as alias
+```
 
 Dans l'objet application Finder :
 
-    set monFichier to file "Macintosh HD:Users:bruno:Desktop:test.txt"
-    set monFichier to "Macintosh HD:Users:bruno:Desktop:test.txt" as file
+```applescript
+set monFichier to file "Macintosh HD:Users:bruno:Desktop:test.txt"
+set monFichier to "Macintosh HD:Users:bruno:Desktop:test.txt" as file
+```
 
 Un fichier à partir d'un chemin Unix :
 
-    set monFichierPOSIX to POSIX file "/Users/bruno/Desktop/test.txt"
-    set monFichierPOSIX to "/Users/bruno/Desktop/test.txt" as POSIX file
-
+```applescript
+set monFichierPOSIX to POSIX file "/Users/bruno/Desktop/test.txt"
+set monFichierPOSIX to "/Users/bruno/Desktop/test.txt" as POSIX file
+```
 
 ### Créer un fichier (dans Finder) ###
 
+```applescript
+tell application "Finder"
     set nouveauFichier to make new file at desktop with properties {name:"coucou.txt", extension hidden:false,comment:"créé par AppleScript"} --> (Document file)
+end tell
+```
 
 
 ### Fichiers/Dossiers Unix ###
-
 
 set monDossier to "/usr/local/bin"
 get info for monDossier
@@ -298,3 +311,33 @@ La valeur de retour du script est la dernière valeur de la variable result.
 ## Erreurs AppleScript ##
 
 - erreur -1708 : Si on ne mets pas `cancel button "Annuler"`` on obtient "error -1708"
+
+## Bugs Applescript ##
+
+Dans Sierra, il est impossible de lire ou de modifier une signature de Mail. Il faut utiliser le code suivant :
+
+```applescript
+
+set theSignatureName to "Signature n°2"
+try
+        set message signature of new_message to signature theSignatureName
+        
+    on error --BUG SIERRA 
+        
+        tell application "Mail" to activate
+        tell application "System Events"
+            tell process "Mail"
+                click pop up button 2 of window 1
+                delay 0.5
+                keystroke {down} --put here the first letter of the name of your signature 
+                delay 0.5
+                keystroke {down} --put here the first letter of the name of your signature 
+                delay 0.5
+                keystroke return
+                delay 0.1
+            end tell
+        end tell
+        
+        
+    end try
+```
