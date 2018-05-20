@@ -161,7 +161,8 @@ end if
 and, or, not, &, =, and ≠
 =, is equal to, equals
 ≠, <>, is not equal to
-\>, <, >=, <=, 
+\>, >=, is greater than, is greater than or equal 
+<, <= is less than, is less than or equal
 
 #### Les boucles
 
