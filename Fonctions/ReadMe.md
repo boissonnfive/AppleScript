@@ -55,6 +55,15 @@ Liste de fonctions utiles.
 
 ## Fonctions sur les fichiers/dossiers ##
 
-- creeDossier    : Crée un dossier à l'endroit indiqué
-- deplaceElement : Déplace un élément à l'endroit indiqué
-- elementExiste  : Détermine si un élément existe ou pas
+- creeDossier          : Crée un dossier à l'endroit indiqué
+- deplaceElement       : Déplace un élément à l'endroit indiqué
+- elementExiste        : Détermine si un élément existe ou pas
+- POSIXVersAlias       : Renvoi un alias à partir d'un chemin POSIX
+- aliasVersPOSIX       : Renvoi un chemin POSIX à partir d'un alias
+- versionApplication   : Renvoi la version de l'application
+- renommeElementFinder : Renomme un élément du Finder (fichier/dossier/alias)
+- renommeApplication   : Renomme une application du Finder
+- dossierParent        : Renvoi le dossier parent de l'élément passé en paramètre
+- creeAlias            : Crée un raccourci (alias) vers un élément
+- copieDansDossier     : Copie un élément dans un dossier
+- supprimeElement      : Supprime un élément
