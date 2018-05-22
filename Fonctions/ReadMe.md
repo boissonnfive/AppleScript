@@ -23,6 +23,7 @@ Liste de fonctions utiles.
 - UIscript_check : Fonction pour vérifier si "Activer l'accès pour les périphériques d'aide" est activé dans les préférences système > Accès Universel (ce qui permet d'utiliser les fonctionnalité de script GUI).
 - do_menu        : Fonction pour atteindre un menu d'une application.
 - do_submenu     : Fonction pour atteindre un sous-menu d'une application.
+- clicEnregisterSous10_12 : Manipule la fenêtre « Enregistrer sous » de macOS 10.12 .
 
 
 ## Fonctions de manipulation des dates ##
