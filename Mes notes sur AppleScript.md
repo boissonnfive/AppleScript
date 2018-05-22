@@ -287,6 +287,32 @@ De Alias vers POSIX (quand on veut afficher le chemin) :
 
 [Documentation Apple](https://developer.apple.com/library/content/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/AutomatetheUserInterface.html#//apple_ref/doc/uid/TP40016239-CH69-SW1)
 
+### Taper au clavier ###
+
+Pour simuler la frappe d'une touche du clavier on utilise les fonctions `keystroke` ou `key code`.
+
+exemples :
+
+```applescript
+keystroke "Bonjour tout le monde !" -- tape cette phrase
+keystroke "g" using {command down, shift down} -- tape le raccourci ⌘ ⇧ G
+key code 123 using option down -- flêche gauche avec Alt
+key code 51 -- retour arrière
+```
+
+**constantes keystroke** : `return`, `tab`, `space`
+
+**codes clavier utiles** : 
+
+- flêche gauche : 123
+- flêche droite : 124
+- flêche bas : 125
+- flêche haut : 126
+- début : 115
+- fin : 119
+- retour arrière : 51
+- échappe : 53
+
 
 ---
 
