@@ -163,30 +163,68 @@ end fenetreQuestion
 
 ## Fichiers/Dossiers ##
 
+### Procédure ###
+
 [Documentation Apple](https://developer.apple.com/library/content/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/ReferenceFilesandFolders.html#//apple_ref/doc/uid/TP40016239-CH34-SW1)
 
-Pour utiliser les Fichiers/Dossiers, il faut :
+Pour manipuler les Fichiers/Dossiers, il faut :
 
 1. Créer un alias :
 
-        set monFichierAlias to "Macintosh HD:Users:bruno:Desktop:test.txt" as alias
+```applescript
+set monFichierAlias to "Macintosh HD:Users:bruno:Desktop:test.txt" as alias
+-- ou
+set monFichierAlias to (POSIX file "/Users/bruno/Desktop/test.txt") as alias
+```
 
 2. Utiliser l'application "Finder"
 
-        tell application "Finder"
-        ...
-        end tell
+*NOTE : l'application "Finder" ne reconnaît pas l'objet `POSIX file`.*
+
+```applescript
+tell application "Finder"
+-- Manipulation de fichiers/dossiers
+end tell
+```
+
+
+### Lister le contenu d'un dossier ###
+
+**Pour récupérer les fichiers :**
+```applescript
+tell application "Finder"
+    set tousLesFichiers to every file of folder aliasDossierFactures
+    repeat with unFichier in tousLesFichiers
+        get name of unFichier
+    end repeat
+end tell
+```
+
+**Pour récupérer les dossiers :**
+```applescript
+tell application "Finder"
+    set tousLesDossiers to every folder of folder "Desktop" of home
+    repeat with unDossier in tousLesDossiers
+        set nomDossier to the name of unDossier
+    end repeat
+end tell
+```
 
 
 ### Récupérer les informations d'un fichier/Dossier ###
 
+**Hors de l'objet application Finder :**
+
+```applescript
+get info for monFichierAlias -- ou : get info for monFichierPOSIX
+```
+
+**Dans l'objet application Finder :**
 ```applescript
 tell application "Finder"
-    get container of monFichierAlias --> Dossier contenant le fichier (folder)
-    name extension of monFichierAlias --> Extension du fichier (string)
-    name of monFichierAlias --> Nom du fichier (string)
-    modification date of monFichierAlias --> Date de modification (date)
-    physical size of monFichierAlias --> Taille (integer)
+    get properties of monFichierAlias --> container, name, name extension, etc...
+    -- ou
+    get properties of file "log.txt" of folder "Desktop" of home
 end tell
 ```
 
@@ -198,28 +236,29 @@ tell application "Finder" to set dossierParent to container of (path to me)
 
 NOTE: `container` appartient à **Finder**, `path to` appartient aux **Standard Additions**
 
+
 ### Créer une variable fichier ###
 
-Un alias hors de l'objet application Finder :
+**Hors de l'objet application Finder => un alias :**
 
 ```applescript
 set monFichierAlias to alias "Macintosh HD:Users:bruno:Desktop:test.txt"
 set monFichierAlias to "Macintosh HD:Users:bruno:Desktop:test.txt" as alias
+-- ou
+set monFichierAlias to (POSIX file "/Users/bruno/Desktop/test.txt") as alias
+set monFichierAlias to ("/Users/bruno/Desktop/test.txt" as POSIX file) as alias
 ```
 
-Dans l'objet application Finder :
+**Dans l'objet application Finder => alias ou file ou folder :**
 
 ```applescript
+tell application "Finder"
 set monFichier to file "Macintosh HD:Users:bruno:Desktop:test.txt"
 set monFichier to "Macintosh HD:Users:bruno:Desktop:test.txt" as file
+set monFichier to file "text.txt" of folder "Desktop" of home
+end tell
 ```
 
-Un fichier à partir d'un chemin Unix :
-
-```applescript
-set monFichierPOSIX to POSIX file "/Users/bruno/Desktop/test.txt"
-set monFichierPOSIX to "/Users/bruno/Desktop/test.txt" as POSIX file
-```
 
 ### Créer un fichier (dans Finder) ###
 
@@ -230,27 +269,17 @@ end tell
 ```
 
 
-### Fichiers/Dossiers Unix ###
+### Passer de alias à POSIX et inversement ###
 
-set monDossier to "/usr/local/bin"
-get info for monDossier
-get folder of (info for monDossier)
+```applescript
+set monFichierAlias to "Macintosh HD:Users:bruno:Desktop:16 Bit installer:" as alias --> alias "Macintosh HD:Users:bruno:Desktop:16 Bit installer:"
+class of monFichierAlias --> alias
 
-
-Dans AppleScript, il vaut toujours mieux utiliser les alias :
-
-    set monFichierAlias to (POSIX file "/Users/bruno/Desktop/test.txt") as alias
-
-
-On met `\\` quand il y a une espace dans le nom POSIX :
-
-    set my_folder to "/Library/Desktop\\ Pictures"
-
-
-De Alias vers POSIX (quand on veut afficher le chemin) :
-
-	set p to POSIX path of monFichierAlias
-
+set p to POSIX path of monFichierAlias --> "/Users/bruno/Desktop/16 Bit installer/"
+class of p --> text
+set monFichierPOSIX to (POSIX file p) --> file "Macintosh HD:Users:bruno:Desktop:16 Bit installer:"
+class of monFichierPOSIX --> «class furl»
+```
 
 ---
 
