@@ -241,21 +241,48 @@ NOTE: `container` appartient à **Finder**, `path to` appartient aux **Standard 
 
 **Hors de l'objet application Finder => un alias :**
 
+*ATTENTION ! Un alias doit obligatoirement pointer sur un fichier/dossier existant (contrairement à un fichier POSIX).*
+
 ```applescript
 set monFichierAlias to alias "Macintosh HD:Users:bruno:Desktop:test.txt"
 set monFichierAlias to "Macintosh HD:Users:bruno:Desktop:test.txt" as alias
+--> alias "Macintosh HD:Users:bruno:Desktop:test.txt"
 -- ou
 set monFichierAlias to (POSIX file "/Users/bruno/Desktop/test.txt") as alias
 set monFichierAlias to ("/Users/bruno/Desktop/test.txt" as POSIX file) as alias
+--> alias "Macintosh HD:Users:bruno:Desktop:test.txt"
 ```
 
 **Dans l'objet application Finder => alias ou file ou folder :**
 
+L'objet application Finder peut utiliser indifféremment un alias ou un objet file/foler.
+
 ```applescript
 tell application "Finder"
-set monFichier to file "Macintosh HD:Users:bruno:Desktop:test.txt"
-set monFichier to "Macintosh HD:Users:bruno:Desktop:test.txt" as file
-set monFichier to file "text.txt" of folder "Desktop" of home
+    -- Fichier à partir d'un chemin mac
+    set monFichier to file "Macintosh HD:Users:bruno:Desktop:log.txt"
+    --> document file "log.txt" of folder "Desktop" of folder "bruno" of folder "Users" of startup disk
+    class of monFichier
+    --> document file
+    -- Fichier à partir d'un alias
+    set monFichier to file aliasFichierLog
+    --> document file "log.txt" of folder "Desktop" of folder "bruno" of folder "Users" of startup disk
+    class of monFichier
+    --> document file
+    -- Fichier à partir d'un chemin POSIX
+    set monFichier to file (POSIX file "/Users/bruno/Desktop/log.txt")
+    --> document file "log.txt" of folder "Desktop" of folder "bruno" of folder "Users" of startup disk
+    class of monFichier
+    --> document file
+    --
+    set monFichier to file "log.txt" of folder "Desktop" of home
+    --> document file "log.txt" of folder "Desktop" of folder "bruno" of folder "Users" of startup disk
+    class of monFichier
+    --> document file
+    -- Dossier à partir d'un alias
+    set monDossier to folder aliasDossierFactures
+    --> folder "Factures" of folder "binfoservice" of folder "Documents" of folder "bruno" of folder "Users" of startup disk
+    class of monDossier --> folder
 end tell
 ```
 
