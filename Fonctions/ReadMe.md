@@ -49,22 +49,24 @@ Liste de fonctions utiles.
 
 ## Fonctions système ##
 
-- nomOrdinateur  : Renvoi le nom de l'ordinateur
-- nomUtilisateur : Renvoi le nom de l'utilisateur
-- versionSysteme : Renvoi la version du système
-- adresseIP      : Renvoi l'adresse IP en cours
+- nomOrdinateur        : Renvoi le nom de l'ordinateur
+- nomUtilisateur       : Renvoi le nom de l'utilisateur
+- versionSysteme       : Renvoi la version du système
+- versionSystemeCourte : Renvoi seulement les deux premiers nombres de la version du système
+- versionApplication   : Renvoi la version de l'application
+- adresseIP            : Renvoi l'adresse IP en cours
 
 ## Fonctions sur les fichiers/dossiers ##
 
-- creeDossier          : Crée un dossier à l'endroit indiqué
-- deplaceElement       : Déplace un élément à l'endroit indiqué
-- elementExiste        : Détermine si un élément existe ou pas
-- POSIXVersAlias       : Renvoi un alias à partir d'un chemin POSIX
-- aliasVersPOSIX       : Renvoi un chemin POSIX à partir d'un alias
-- versionApplication   : Renvoi la version de l'application
-- renommeElementFinder : Renomme un élément du Finder (fichier/dossier/alias)
-- renommeApplication   : Renomme une application du Finder
-- dossierParent        : Renvoi le dossier parent de l'élément passé en paramètre
-- creeAlias            : Crée un raccourci (alias) vers un élément
-- copieDansDossier     : Copie un élément dans un dossier
-- supprimeElement      : Supprime un élément
+- POSIXVersAlias     : Renvoi un alias à partir d'un chemin POSIX
+- aliasVersPOSIX     : Renvoi un chemin POSIX à partir d'un alias
+- nomSansExtension   : Renvoi le nom du fichier sans extension
+- dossierParent      : Renvoi le dossier parent de l'élément passé en paramètre
+- creeDossier        : Crée un dossier à l'endroit indiqué
+- creeAlias          : Crée un raccourci (alias) vers un élément
+- copieElement       : Copie un élément dans un dossier
+- deplaceElement     : Déplace un élément à l'endroit indiqué
+- supprimeElement    : Supprime un élément
+- elementExiste      : Détermine si un élément existe ou pas
+- renommeElement     : Renomme un élément du Finder (fichier/dossier/alias)
+- renommeApplication : Renomme une application du Finder
