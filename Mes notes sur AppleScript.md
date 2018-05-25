@@ -423,3 +423,16 @@ try
         
     end try
 ```
+
+
+## ASObjC ##
+
+## POSIX file ##
+
+On ne peut pas utiliser la syntaxe `POSIX file toto` car elle n'est pas reconnue. Il faut procéder de la manière suivante :
+
+```applescript
+set aliasFichierLog to ((cheminPOSIXFichierLog as POSIX file) as alias)
+-- ou
+tell current application to set aliasFichierLog to ((POSIX file cheminPOSIXFichierLog) as alias)
+```
