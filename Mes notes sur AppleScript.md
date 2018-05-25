@@ -425,6 +425,13 @@ try
 ```
 
 
+## Application Mail ##
+
+- Un expéditeur (sender) doit avoir le format suivant : `"Bruno Boissonnet <bruno@binfoservice.fr>"`
+- BUG SIERRA: L'ajout d'une signature quand on crée un `Outgoing message` ne fonctionne pas => Il faut utiliser le GUI scripting (j'ai créé une fonction **ajouteSignatureDansMail**) [source](https://macscripter.net/viewtopic.php?pid=188442)
+
+
+
 ## ASObjC ##
 
 ## POSIX file ##
