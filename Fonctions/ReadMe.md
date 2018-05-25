@@ -70,3 +70,8 @@ Liste de fonctions utiles.
 - elementExiste      : Détermine si un élément existe ou pas
 - renommeElement     : Renomme un élément du Finder (fichier/dossier/alias)
 - renommeApplication : Renomme une application du Finder
+
+## Fonctions de messagerie ##
+
+- envoieAvecMail          : Crée et envoie un mail avec Mail
+- ajouteSignatureDansMail : ajouteSignatureDansMail
