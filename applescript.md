@@ -176,6 +176,10 @@ end repeat
 repeat with i from 1 to count of noms
    log "nom n°" & i & ": " & item i of noms
 end repeat
+-- On ne peut pas aller du plus grand au plus petit. Il faut faire comme ça :
+repeat with i from 1 to (length of chaine)
+  log character ((length of chaine) + 1 - i) of chaine
+end repeat
 ```
 ```applescript
 set rep_non to false
