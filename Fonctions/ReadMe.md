@@ -16,6 +16,7 @@ Liste de fonctions utiles.
 - RemplaceCaractere2 : Remplace le caractère spécifié de la chaine passée en paramètres par un autre
 - contientAccent     : Détermine si la chaîne contient au moins un accent.
 - supprimeAccents    : Remplace les caractères accentués par le même caractère non accentué
+- aLEnvers           : Renvoie la chaîne avec les caractères dans l'ordre inverse
 
 
 ## Fonctions de manipulation de l'interface graphique ##
