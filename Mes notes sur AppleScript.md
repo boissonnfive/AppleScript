@@ -337,7 +337,52 @@ class of monFichierPOSIX --> «class furl»
     end splitText
 
 
----
+## Création de classes/Libraries ##
+
+Le but est de créer des classes réutilisables dans ses projets. Pour cela, il suffit de créer un script : ses propriétés sont les membres de la classe, ses handlers sont les méthodes de la classe. Il suffit de sauvegarder son fichier en tant que script (.scpt) dans un dossier **Script Libraries** situé dans un des dossiers suivants : ~/Library/, /Library, dossier Resources d'une applet ou d'une application.
+
+### 1°) On écrit une classe script ###
+
+```applescript
+property volumeEnCl : 24.7
+property volumeMAX : 75.0
+on remplitBouteille(volumeEnClAAJouter)
+    set volumeEnCl to volumeEnCl + volumeEnClAAJouter
+    if volumeEnCl is greater than volumeMAX then set volumeEnCl to volumeMAX
+end remplitBouteille
+
+on verseBouteille(volumeEnClAEnlever)
+    set volumeEnCl to volumeEnCl - volumeEnClAEnlever
+    if volumeEnCl is less than 0 then set volumeEnCl to 0
+end verseBouteille
+
+on videBouteille()
+    set volumeEnCl to 0
+end videBouteille
+```
+
+### 2°) On enregistre au format script (.scpt) ###
+
+**Fichier** > **Enregistrer...**
+
+1. Donnez un nom à votre script (ex: Bouteille) dans le champ **Enregistrer sous :**
+2. Sélectionner le dossier **~/Library** et créez (si besoin) le dossier **Script Libraries**
+2. Dans **Format de fichier :**, sélectionnez **Script**
+3. Aucune option n'est cochée
+4. Cliquez sur le bouton **Enregistrer** pour enregistrer votre script dans le dossier **Script Libraries**
+
+### 3°) Utilisation de la classe/Library ###
+
+```applescript
+tell script "Bouteille"
+    get volumeEnCl of it
+    remplitBouteille(15.5)
+    log volumeEnCl of it
+    videBouteille()
+    log volumeEnCl of it
+end tell
+```
+
 
 ## GUI Scripting ##
 
