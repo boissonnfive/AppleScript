@@ -1,6 +1,107 @@
 # Mes notes sur AppleScript
 
 
+## L' « Éditeur de script »
+
+- Avant OS X 10.9 il s'appelait :  « Éditeur AppleScript »
+- situé dans "/Applications/Utilitaires"
+- penser à enregistrer les scripts au format texte (extension .applescript)
+- ⌥ ↩ pour continuer une instruction à la ligne
+- touche F5 ou esc : terminaison des mots quand on programme en applescript ("Utiliser l'Assistant Script" doit être coché dans les Préférences | Général)
+- "Afficher le menu des scripts dans la barre de menu" dans "Préférences | Général"
+- Les fichiers scripts .app peuvent être ouvert en les glissant sur l'appli Editeur de scripts SEULEMENT si ce ne sont pas de purs exécutables
+- (**Avant Snow leopard 10.6**) Par défaut l'enregistrement d'un script en tant qu'application, crée une application PowerPC. Pour créer une application Universal Binary, il faut sauvegarder en tant que Progiciel.
+- Pour associer un script à un raccourci clavier :
+    + [Spark](http://www.shadowlab.org/Software/spark.php?lang=fr)
+    + [FastScripts](http://www.red-sweater.com/fastscripts/index.html)
+- Pour connaître les éléments d'une fenêtre et faire de la programmation d'interface (GUI scripting) :
+    + [Prefab UI Browser 40.20 EUR](http://prefabsoftware.com/uibrowser/)
+
+
+## Exemples de scripts
+
+Des scripts exemples se trouvent dans le dossier : "/Library/Scripts" . Notamment le dossier "Mail Scripts" pour l'envoi de mail, mais aussi le dossier "Script Editor Scripts" pour la comparaison de chaîne de caractères, etc …
+
+
+## Mise au point du code
+
+Pour afficher la valeur de variables ou savoir où on se trouve dans le code, on peut utiliser les fonctions suivantes:
+
+- display alert
+- say
+- log (dans le panneau "Événements" de la fenêtre de l'« Éditeur de script »)
+- beep -- pour émettre un son
+
+
+## Connaître le dictionnaire d'une application
+
+- Tirer l'icône de l'application sur l'icône de l'« Éditeur de script »
+- Fichier > Ouvrir un dictionnaire… et choisir l'application
+
+
+## Applescript dans Automator
+
+La fonction principale d'un Applescript dans Automator est :
+
+    on run {input, parameters}
+    end run
+
+où 
+
+- `input`: la liste des éléments passés en paramètres (une liste d'alias)
+- `paramètres`: des paramètres de l'action (rarement utilisé)
+
+*NOTE: Pour connaître le contenu de `input` et `parameters`, il faut faire un `return input` ou un `return parameters`. Pour lire le résultat, il faut faire apparaître le volet résultat qui se trouve entre le volet source et les boutons "Résultats Options Description".* 
+
+Pour passer en revue tous les éléments de `input, on fait :
+    
+    repeat with i in input
+        display dialog i as text
+        -- action sur l'élément
+    end repeat
+
+
+## Lancer une boîte dialogue depuis le shell
+
+    $ osascript -e 'tell app "System Events" to display dialog "Une boîte de dialogue avec 1 bouton OK et un bouton Annuler."'
+
+Affiche une boîte de dialogue et renvoi le nom du bouton cliqué ou une erreur si on a cliqué sur le bouton **Annuler**.
+Le code de retour est 0 si on a cliqué sur **OK**. Sinon, on a cliqué sur **Annuler**
+
+[source](http://docwhat.gerf.org/2008/04/mac-shell-dialogs/)
+
+
+## Lancer un applescript depuis le Terminal 
+
+    # Un script
+    $ osascript test.applescript
+
+Si le applescript doit recevoir des paramètres, on utilisera la forme :
+
+    on run {param1, param2}
+    end run
+
+Si le applescript doit afficher une boîte de dialogue, on utilisera la forme :
+
+    tell application "System Events"
+        display dialog "Coucou!"
+    end tell
+
+
+## Manipuler des images avec AppleScript
+
+Il faut utiliser le gestionnaire "Image Events".
+source : <http://www.macosxautomation.com/applescript/imageevents/01.html>
+
+## Liens
+
+- Le langage AppleScript : <http://developer.apple.com/library/mac/#documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html>
+- AppleScript (Sub-Routines): <http://www.apple.com/applescript/sbrt/index.html>
+- applescript   address book   iCal : <http://forum.macbidouille.com/index.php?showtopic=184799&hl=the_mailing_list>
+- Applescript Forums | MacScripter : <http://bbs.macscripter.net/index.php>
+- Introduction to Scripting Address Book : <http://www.mactech.com/articles/mactech/Vol.21/21.10/ScriptingAddressBook/index.html>
+
+
 ## Utilisation des boîtes de dialogue ##
 
 [Documentation Apple](https://developer.apple.com/library/content/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/DisplayDialogsandAlerts.html#//apple_ref/doc/uid/TP40016239-CH15-SW1)
@@ -479,7 +580,7 @@ try
 
 ## ASObjC ##
 
-## POSIX file ##
+### POSIX file
 
 On ne peut pas utiliser la syntaxe `POSIX file toto` car elle n'est pas reconnue. Il faut procéder de la manière suivante :
 
@@ -488,3 +589,18 @@ set aliasFichierLog to ((cheminPOSIXFichierLog as POSIX file) as alias)
 -- ou
 tell current application to set aliasFichierLog to ((POSIX file cheminPOSIXFichierLog) as alias)
 ```
+
+## Coloration syntaxique AppleScript dans HTML ##
+
+Pour obtenir la coloration syntaxique AppleScript dans une page HTML, voici la procédure : 
+
+1. Sélectionnez votre code dans l' « Éditeur de script »
+2. Copiez-le (Cmd C)
+3. Ouvrez TextEdit
+4. Copiez votre code à l'intérieur (Cmd V)
+5. Enregistrez le fichier au format **Page web (.html)** (ex : script1.html)
+6. Copier le code dans une balise `<iframe>`:
+
+        <iframe src="script1.html" width="600px" height="700px">
+            <-- Contenu du fichier !-->
+        </iframe>
