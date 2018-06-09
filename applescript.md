@@ -308,19 +308,35 @@ On les utilise pour différencier les actions et propriétés du script et de la
 
 ```applescript
 set dateDuJour to current date -- ou date string of (current date)
---> resultat : date "mardi 1 novembre 2011 14:08:39"
+--> Résultat : date "lundi 4 juin 2018 à 10:12:18" => class date
 short date string of dateDuJour
---> resultat : date "01/11/2011"
-set {year:y, month:m, day:d, hours:h, minutes:min} to (current date)
-set todayDate to (d & "-" & (m as integer) & "-" & y & "-" & h & "-" & min) as string
+--> Résultat : "04/06/2018"  => class text
+date string of dateDuJour
+--> Résultat : "lundi 4 juin 2018"
 
-time string of (dateDuJour)                 --> heures:minutes:secondes
-weekday of (dateDuJour) as text             --> jour
-month of (dateDuJour)                       --> mois
-year of (dateDuJour)                        --> année
-(time of (dateDuJour)) div 3600             --> heure
-((time of (dateDuJour)) mod 3600) div 60    --> minutes
-(time of (dateDuJour)) mod 60               --> secondes
+set {year:y, month:m, day:d, hours:h, minutes:min} to dateDuJour
+--> Résultat : date "lundi 4 juin 2018 à 10:14:36"
+
+set todayDate to (d & "-" & (m as integer) & "-" & y & "-" & h & "-" & min) as text
+--> Résultat : "4-6-2018-10-16" => class text
+
+time string of (dateDuJour) --> "10:17:44"
+
+weekday of (dateDuJour) --> Monday => constante
+weekday of (dateDuJour) as text --> "Monday"
+weekday of (dateDuJour) as integer --> 2 ATTENTION ! le numéro de jour du lundi est 2 et non pas 1
+
+month of (dateDuJour) --> June => constante
+month of (dateDuJour) as integer --> 6
+month of (dateDuJour) as text --> "June"
+
+year of (dateDuJour) --> 2018 => class integer
+hours of dateDuJour --> 10 => class integer
+-- ou (time of (dateDuJour)) div 3600
+minutes of dateDuJour --> 27 => class integer
+-- ((time of (dateDuJour)) mod 3600) div 60
+seconds of dateDuJour --> 1 => class integer
+-- (time of (dateDuJour)) mod 60
 ```
  
 ### Créer une date
@@ -335,7 +351,7 @@ set ma_date to date "mardi 1 novembre 2011 00:00:00"
 ### Ajouter du temps à une date
 
 ```applescript
-set myDate to (current date)   (4 * days   3 * hours   2 * minutes) - (1 * days   5 * hours   31 * minutes)
+set myDate to (current date) + (4 * days + 3 * hours + 2 * minutes) - (1 * days + 5 * hours + 31 * minutes)
 -- resultat : current date => date "mardi 1 novembre 2011 14:08:39"
 -- resultat : date "vendredi 4 novembre 2011 11:39:39"
 ```
@@ -614,7 +630,7 @@ about, above, after, against, and, apart from, around, as, aside from, at, back,
 
 ### Liste des constantes globales
 
-pi, result, Text Constants, text item delimiters, version, current application, Constant, missing value, true, false.
+pi, result, space, tab, return, linefeed, quote, text item delimiters, version, current application, Constant, missing value, true, false, years, months, days, hours, minutes, seconds, Monday, Tuesday, Wenesday, Thursday, Friday, Saturday, Sunday.
 
 
 * * *
