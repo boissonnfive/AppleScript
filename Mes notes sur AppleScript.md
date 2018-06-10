@@ -27,11 +27,20 @@ Des scripts exemples se trouvent dans le dossier : "/Library/Scripts" . Notammen
 
 Pour afficher la valeur de variables ou savoir où on se trouve dans le code, on peut utiliser les fonctions suivantes:
 
-- display alert
-- say
-- log (dans le panneau "Événements" de la fenêtre de l'« Éditeur de script »)
-- beep -- pour émettre un son
+```applescript
+set maVariable to 3.6
+display alert "La valeur de ma variable est : " & maVariable
+--> Affiche une boîte de dialogue avec un bouton "OK".
 
+log "La valeur de ma variable est : " & maVariable
+--> Écrit dans le panneau "Événements" de la fenêtre de l'« Éditeur de script »
+
+say "La valeur de ma variable est : " & maVariable
+--> Utilise le synthétiseur de voix pour dire la phrase
+
+beep
+--> Émet un bip
+```
 
 ## Connaître le dictionnaire d'une application
 
@@ -39,12 +48,14 @@ Pour afficher la valeur de variables ou savoir où on se trouve dans le code, on
 - Fichier > Ouvrir un dictionnaire… et choisir l'application
 
 
-## Applescript dans Automator
+## AppleScript dans Automator
 
 La fonction principale d'un Applescript dans Automator est :
 
-    on run {input, parameters}
-    end run
+```applescript
+on run {input, parameters}
+end run
+```
 
 où 
 
@@ -54,12 +65,13 @@ où
 *NOTE: Pour connaître le contenu de `input` et `parameters`, il faut faire un `return input` ou un `return parameters`. Pour lire le résultat, il faut faire apparaître le volet résultat qui se trouve entre le volet source et les boutons "Résultats Options Description".* 
 
 Pour passer en revue tous les éléments de `input, on fait :
-    
-    repeat with i in input
-        display dialog i as text
-        -- action sur l'élément
-    end repeat
 
+```applescript    
+repeat with i in input
+    display dialog i as text
+    -- action sur l'élément
+end repeat
+```
 
 ## Lancer une boîte dialogue depuis le shell
 
@@ -78,29 +90,23 @@ Le code de retour est 0 si on a cliqué sur **OK**. Sinon, on a cliqué sur **An
 
 Si le applescript doit recevoir des paramètres, on utilisera la forme :
 
-    on run {param1, param2}
-    end run
+```applescript
+on run {param1, param2}
+end run
+```
 
 Si le applescript doit afficher une boîte de dialogue, on utilisera la forme :
 
-    tell application "System Events"
-        display dialog "Coucou!"
-    end tell
-
+```applescript
+tell application "System Events"
+    display dialog "Coucou!"
+end tell
+```
 
 ## Manipuler des images avec AppleScript
 
 Il faut utiliser le gestionnaire "Image Events".
 source : <http://www.macosxautomation.com/applescript/imageevents/01.html>
-
-## Liens
-
-- Le langage AppleScript : <http://developer.apple.com/library/mac/#documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html>
-- AppleScript (Sub-Routines): <http://www.apple.com/applescript/sbrt/index.html>
-- applescript   address book   iCal : <http://forum.macbidouille.com/index.php?showtopic=184799&hl=the_mailing_list>
-- Applescript Forums | MacScripter : <http://bbs.macscripter.net/index.php>
-- Introduction to Scripting Address Book : <http://www.mactech.com/articles/mactech/Vol.21/21.10/ScriptingAddressBook/index.html>
-
 
 ## Utilisation des boîtes de dialogue ##
 
@@ -152,8 +158,8 @@ set prenom to choose from list mesPrenoms
 
 
 ### Boîte de dialogue qui récupère une liste ###
-    
- ```applescript
+
+```applescript
 display dialog ("Taper une liste de noms séparés par des virgules") ¬
 default answer ("ex: reponse1, reponse2, reponse3") ¬
 with icon 1 ¬
@@ -162,7 +168,6 @@ default button "OK"
 ```
 
 (Voir plus bas comment transformer une chaîne de mots séparés par des virgules en liste.)
-
 
 ### Boîte de dialogue qui demande une valeur ###
 
@@ -523,7 +528,7 @@ key code 51 -- retour arrière
 fichier : applescript_shell.sh
 
 	#!/usr/bin/osascript
-
+    
 	tell application "Finder"
 		set nomsFenetres to name of every Finder window
 		choose from list nomsFenetres
@@ -576,8 +581,6 @@ try
 - Un expéditeur (sender) doit avoir le format suivant : `"Bruno Boissonnet <bruno@binfoservice.fr>"`
 - BUG SIERRA: L'ajout d'une signature quand on crée un `Outgoing message` ne fonctionne pas => Il faut utiliser le GUI scripting (j'ai créé une fonction **ajouteSignatureDansMail**) [source](https://macscripter.net/viewtopic.php?pid=188442)
 
-
-
 ## ASObjC ##
 
 ### POSIX file
@@ -604,3 +607,20 @@ Pour obtenir la coloration syntaxique AppleScript dans une page HTML, voici la p
         <iframe src="script1.html" width="600px" height="700px">
             <-- Contenu du fichier !-->
         </iframe>
+
+
+## Bibliothèques ou outils supplémentaires
+
+- [JSON Helper](https://itunes.apple.com/fr/app/json-helper-for-applescript/id453114608?mt=12) : JSON Helper is an agent (or scriptable background application) which allows you to do useful things with JSON (JavaScript Object Notation) directly from AppleScript.
+- [Location Helper](https://itunes.apple.com/fr/app/location-helper-for-applescript/id488536386?mt=12) : Location Helper is an agent which allows you to access the functionality of Core Location from AppleScript.
+- [Smile companion osax](http://www.satimage.fr/software/en/downloads/downloads_companion_osaxen.html) : __Files osax 3.0__ contains some file utilities; __Satimage osax 3.7.0__ contains Text search-and-replace commands and regular expressions, scientific computing and folder synchronization.
+- [AppleScript Toolbox](https://astoolbox.wordpress.com)
+
+
+## Liens intéressants
+
+- [Le langage AppleScript](http://developer.apple.com/library/mac/#documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html) 
+- [AppleScript (Sub-Routines)](http://www.apple.com/applescript/sbrt/index.html)
+- [AppleScript address book iCal](http://forum.macbidouille.com/index.php?showtopic=184799&hl=the_mailing_list)
+- [Applescript Forums | MacScripter](http://bbs.macscripter.net/index.php)
+- [Introduction to Scripting Address Book](http://www.mactech.com/articles/mactech/Vol.21/21.10/ScriptingAddressBook/index.html)
