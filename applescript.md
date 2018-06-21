@@ -191,7 +191,11 @@ repeat while (rep_non is false)
 end repeat
 ```
 
-*NOTE: pour sortir d'une boucle `exit repeat`*
+__Remarques :__
+
+- pour sortir d'une boucle : `exit repeat`
+- Dans un `repeat with obj in list` il peut être utile de préciser la classe quand on veut la valeur de obj : `obj as class`
+- Dans un `repeat with obj in every`, il est parfois utile de mettre un `get every`
 
 #### La gestion des erreurs
 
