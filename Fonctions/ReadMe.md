@@ -51,12 +51,13 @@ Liste de fonctions utiles.
 
 ## Fonctions système ##
 
-- __nomOrdinateur__        : Renvoi le nom de l'ordinateur
-- __nomUtilisateur__       : Renvoi le nom de l'utilisateur
-- __versionSysteme__       : Renvoi la version du système
-- __versionSystemeCourte__ : Renvoi seulement les deux premiers nombres de la version du système
-- __versionApplication__   : Renvoi la version de l'application
-- __adresseIP__            : Renvoi l'adresse IP en cours
+- __nomOrdinateur__         : Renvoi le nom de l'ordinateur
+- __nomUtilisateur__        : Renvoi le nom de l'utilisateur
+- __nomUtilisateurComplet__ : Renvoi le nom complet de l'utilisateur
+- __versionSysteme__        : Renvoi la version du système
+- __versionSystemeCourte__  : Renvoi seulement les deux premiers nombres de la version du système
+- __versionApplication__    : Renvoi la version de l'application
+- __adresseIP__             : Renvoi l'adresse IP en cours
 
 ## Fonctions sur les fichiers/dossiers ##
 
