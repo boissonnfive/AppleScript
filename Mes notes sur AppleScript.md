@@ -83,7 +83,14 @@ Le code de retour est 0 si on a cliqué sur **OK**. Sinon, on a cliqué sur **An
 [source](http://docwhat.gerf.org/2008/04/mac-shell-dialogs/)
 
 
-## Lancer un applescript depuis le Terminal 
+## Lancer un applescript depuis un autre applescript
+
+```applescript
+set fichierScript to choose file
+run script fichierScript
+```
+
+## Lancer un applescript depuis le Terminal
 
     # Un script
     $ osascript test.applescript
